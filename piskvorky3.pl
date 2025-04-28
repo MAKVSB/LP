@@ -1,9 +1,3 @@
-% Logical programming, Summer 2025,  Daniel Makovský
-% Play with "tah(<X>, <Y>). The computer plays automatically"
-% Computer starts by running "tp."
-% If you want to simulate computer move for debugging, you can use "tah_a([<X>, <Y>]). But dont forget to disable automatic computer moves"
-% You can reset the playground by running "rs."
-
 :- dynamic ss/2.
 :- dynamic is_empty_flag/1.
 :- dynamic krok/3.
@@ -78,7 +72,7 @@ o6(2, [X, Y], [X, Y1], [X, Y2], [X, Y3], [X, Y4], [X, Y5]) :- Y1 is Y+1, Y2 is Y
 
 o6(4, [X, Y], [X1, Y1], [X2, Y2], [X3, Y3], [X4, Y4], [X5, Y5]) :-  X1 is X+1, X2 is X+2, X3 is X+3, X4 is X+4, X5 is X+5,
                                                                     Y1 is Y-1, Y2 is Y-2, Y3 is Y-3, Y4 is Y-4, Y5 is Y-5.
-% Negated coord check
+
 ssn(X, ' ') :- (ss(X, 'x') ; ss(X, 'o')).
 ssn(X, 'o') :- (ss(X, 'x') ; ss(X, ' ')).
 ssn(X, 'x') :- (ss(X, ' ') ; ss(X, 'o')).
@@ -560,7 +554,7 @@ tp :-
     ss(SB, ' '), ss(SD, ' '), ss(SF, ' '),
 
     (
-        (tah_a(S2, 'GPT1', O)) ; (tah_a(S4, 'GPT2', O))
+        (tah_a(S2, 'GPT28', O)) ; (tah_a(S4, 'GPT29', O))
     ).
 
 tp :-
@@ -578,7 +572,7 @@ tp :-
     (SC = S2; SC = S7), (SE = S4; SE = S9),
     ss(SB, ' '), ss(SD, ' '), ss(SF, ' '),
 
-    tah_a(S3, 'GPT3', O).
+    tah_a(S3, 'GPT30', O).
 
 % Obrana před paralelníma linkama
 tp :-
@@ -596,7 +590,7 @@ tp :-
     (SC = S2; SC = S7), (SE = S4; SE = S9),
     ss(SB, ' '), ss(SD, ' '), ss(SF, ' '),
 
-    tah_a(SD, 'GPT4', O).
+    tah_a(SD, 'GPT31', O).
 
 % % Obrana před čtvercem
 tp :-
@@ -772,370 +766,17 @@ tp :-
         (
             (ss(S2, 'o') ; ss(S4, 'o')), ss(S8, 'o'),
             (o(_, SB, S3, SC, S8, _) ; o(_, SB, S8, SC, S3, _)),
-            tah_a(SC, 'GPT5', O)
+            tah_a(SC, 'GPT41', O)
         ) ;
         (
             ss(S4, 'o'), ss(S9, 'o'),
             (o(_, SB, S4, SC, S9, _) ; o(_, SB, S9, SC, S4, _)),
-            tah_a(SC, 'GPT6', O)
+            tah_a(SC, 'GPT42', O)
         ) ;
         (
             ss(S2, 'o'), ss(S7, 'o'),
             (o(_, SB, S2, SC, S7, _) ; o(_, SB, S7, SC, S2, _)),
-            tah_a(SC, 'GPT7', O)
-        )
-    ).
-
-% Robíme zákeřné kříže - položení čtvrtého pole
-tp :-
-    ss(S1, _), o6(O, S1, S2, S3, S4, S5, SZ),
-    ss(S3, ' '),
-    (
-        ((ss(S2, 'x') ; ss(S4, 'x')), ssn(S1, 'o')) ;
-        ((ss(S4, 'x') ; ss(S5, 'x')), ssn(SZ, 'o'))
-    ),
-    ssn(S2, 'o'), ssn(S3, 'o'), ssn(S4, 'o'), ssn(S5, 'o'),
-
-    ss(S6, _),
-    o6(_, S6, S7, S8, S9, S3, SA),
-    S9 \= S2,
-
-    ss(S9, ' '),
-    (ssn(S6, 'o'), ssn(S7, 'o'), ssn(S8, 'o'), ssn(SA, 'o')),
-    (ss(S7, 'x'), ss(S8, 'x')),
-
-    (
-        (
-            ssn(S1, 'o'), ss(S2, ' '), ss(S4, 'x'), ss(S7, 'x'), ss(S8, 'x'),
-            tah_a(S2, 'GPT8', O)
-        ) ;
-        (
-            ssn(S1, 'o'), ss(S4, ' '), ss(S2, 'x'), ss(S7, 'x'), ss(S8, 'x'),
-            tah_a(S4, 'GPT9', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S5, ' '), ss(S4, 'x'), ss(S7, 'x'), ss(S8, 'x'),
-            tah_a(S5, 'GPT10', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S4, ' '), ss(S5, 'x'), ss(S7, 'x'), ss(S8, 'x'),
-            tah_a(S4, 'GPT11', O)
-        ) ;
-        (
-            ss(S7, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(S8, 'x'),
-            tah_a(S7, 'GPT12', O)
-        ) ;
-        (
-            ss(S8, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(S7, 'x'),
-            tah_a(S8, 'GPT13', O)
-        )
-    ).
-
-tp :-
-    ss(S1, _), o6(O, S1, S2, S3, S4, S5, SZ),
-    ss(S3, ' '),
-    (
-        ((ss(S2, 'x') ; ss(S4, 'x')), ssn(S1, 'o')) ;
-        ((ss(S4, 'x') ; ss(S5, 'x')), ssn(SZ, 'o'))
-    ),
-    ssn(S2, 'o'), ssn(S3, 'o'), ssn(S4, 'o'), ssn(S5, 'o'),
-
-    ss(S7, _),
-    o6(_, S7, S8, S9, S3, SA, SB),
-    S9 \= S2,
-
-    ss(S9, ' '),
-    (ssn(S7, 'o'), ssn(S8, 'o'), ssn(SA, 'o'), ssn(SB, 'o')),
-    (ss(SA, 'x'), ss(S8, 'x')),
-
-    (
-        (
-            ssn(S1, 'o'), ss(S2, ' '), ss(S4, 'x'), ss(SA, 'x'), ss(S8, 'x'),
-            tah_a(S2, 'GPT14', O)
-        ) ;
-        (
-            ssn(S1, 'o'), ss(S4, ' '), ss(S2, 'x'), ss(SA, 'x'), ss(S8, 'x'),
-            tah_a(S4, 'GPT15', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S5, ' '), ss(S4, 'x'), ss(SA, 'x'), ss(S8, 'x'),
-            tah_a(S5, 'GPT16', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S4, ' '), ss(S5, 'x'), ss(SA, 'x'), ss(S8, 'x'),
-            tah_a(S4, 'GPT17', O)
-        ) ;
-        (
-            ss(SA, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(S8, 'x'),
-            tah_a(SA, 'GPT18', O)
-        ) ;
-        (
-            ss(S8, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(SA, 'x'),
-            tah_a(S8, 'GPT19', O)
-        )
-    ).
-
-tp :-
-    ss(S1, _), o6(O, S1, S2, S3, S4, S5, SZ),
-    ss(S3, ' '),
-    (
-        ((ss(S2, 'x') ; ss(S4, 'x')), ssn(S1, 'o')) ;
-        ((ss(S4, 'x') ; ss(S5, 'x')), ssn(SZ, 'o'))
-    ),
-    ssn(S2, 'o'), ssn(S3, 'o'), ssn(S4, 'o'), ssn(S5, 'o'),
-
-    ss(S9, _),
-    o6(_, S9, S3, SA, SB, SC, SD),
-    S9 \= S2,
-
-    ss(SA, ' '),
-    ssn(SD, 'o'), ssn(SB, 'o'), ssn(SC, 'o'), ssn(S9, 'o'),
-    (ss(SB, 'x') ; ss(SC, 'x')),
-
-    (
-        (
-            ssn(S1, 'o'), ss(S2, ' '), ss(S4, 'x'), ss(SC, 'x'), ss(SB, 'x'),
-        tah_a(S2, 'GPT20', O)
-        ) ;
-        (
-            ssn(S1, 'o'), ss(S4, ' '), ss(S2, 'x'), ss(SC, 'x'), ss(SB, 'x'),
-            tah_a(S4, 'GPT21', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S5, ' '), ss(S4, 'x'), ss(SC, 'x'), ss(SB, 'x'),
-            tah_a(S5, 'GPT22', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S4, ' '), ss(S5, 'x'), ss(SC, 'x'), ss(SB, 'x'),
-            tah_a(S4, 'GPT23', O)
-        ) ;
-        (
-            ss(SC, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(SB, 'x'),
-            tah_a(SC, 'GPT24', O)
-        ) ;
-        (
-            ss(SB, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(SC, 'x'),
-            tah_a(SB, 'GPT25', O)
-        )
-    ).
-
-tp :-
-    ss(S1, _), o6(O, S1, S2, S3, S4, S5, SZ),
-    ss(S3, ' '),
-    (
-        ((ss(S2, 'x') ; ss(S4, 'x')), ssn(S1, 'o')) ;
-        ((ss(S4, 'x') ; ss(S5, 'x')), ssn(SZ, 'o'))
-    ),
-    ssn(S2, 'o'), ssn(S3, 'o'), ssn(S4, 'o'), ssn(S5, 'o'),
-
-    ss(S8, _),
-    o6(_, S8, S9, S3, SA, SB, SC),
-    S9 \= S2,
-
-    ss(SA, ' '),
-    ssn(SC, 'o'), ssn(SB, 'o'), (ss(S9, 'x'), ss(S9, ' ')), ssn(S8, 'o'),
-    (ss(SB, 'x') ; ss(S9, 'x')),
-
-    (
-        (
-            ssn(S1, 'o'), ss(S2, ' '), ss(S4, 'x'), ss(S9, 'x'), ss(SB, 'x'),
-            tah_a(S2, 'GPT26', O)
-        ) ;
-        (
-            ssn(S1, 'o'), ss(S4, ' '), ss(S2, 'x'), ss(S9, 'x'), ss(SB, 'x'),
-            tah_a(S4, 'GPT27', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S5, ' '), ss(S4, 'x'), ss(S9, 'x'), ss(SB, 'x'),
-            tah_a(S5, 'GPT28', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S4, ' '), ss(S5, 'x'), ss(S9, 'x'), ss(SB, 'x'),
-            tah_a(S4, 'GPT29', O)
-        ) ;
-        (
-            ss(S9, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(SB, 'x'),
-            tah_a(S9, 'GPT30', O)
-        ) ;
-        (
-            ss(SB, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(S9, 'x'),
-            tah_a(SB, 'GPT31', O)
-        )
-    ).
-
-% Tah počítače - nejzákeřnější kříž - nahoru
-tp :-
-    ss(S1, _), o6(O, S1, S2, S3, S4, S5, SZ),
-    ss(S4, ' '),
-    (
-        ((ss(S2, 'x') ; ss(S4, 'x')), ssn(S1, 'o')) ;
-        ((ss(S4, 'x') ; ss(S5, 'x')), ssn(SZ, 'o'))
-    ),
-    ssn(S2, 'o'), ssn(S3, 'o'), ssn(S4, 'o'), ssn(S5, 'o'),
-
-    ss(S6, _),
-    o6(_, S6, S7, S8, S9, S4, SA),
-    S9 \= S3,
-
-    ss(S9, ' '),
-    (ssn(S6, 'o'), ssn(S7, 'o'), ssn(S8, 'o'), ssn(SA, 'o')),
-    (ss(S7, 'x'), ss(S8, 'x')),
-
-    (
-        (
-            ssn(S1, 'o'), ss(S2, ' '), ss(S4, 'x'), ss(S7, 'x'), ss(S8, 'x'),
-            tah_a(S2, 'GPT32', O)
-        ) ;
-        (
-            ssn(S1, 'o'), ss(S4, ' '), ss(S2, 'x'), ss(S7, 'x'), ss(S8, 'x'),
-            tah_a(S4, 'GPT33', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S5, ' '), ss(S4, 'x'), ss(S7, 'x'), ss(S8, 'x'),
-            tah_a(S5, 'GPT34', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S4, ' '), ss(S5, 'x'), ss(S7, 'x'), ss(S8, 'x'),
-            tah_a(S4, 'GPT35', O)
-        ) ;
-        (
-            ss(S7, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(S8, 'x'),
-            tah_a(S7, 'GPT36', O)
-        ) ;
-        (
-            ss(S8, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(S7, 'x'),
-            tah_a(S8, 'GPT37', O)
-        )
-    ).
-tp :-
-    ss(S1, _), o6(O, S1, S2, S3, S4, S5, SZ),
-    ss(S4, ' '),
-    (
-        ((ss(S2, 'x') ; ss(S4, 'x')), ssn(S1, 'o')) ;
-        ((ss(S4, 'x') ; ss(S5, 'x')), ssn(SZ, 'o'))
-    ),
-    ssn(S2, 'o'), ssn(S3, 'o'), ssn(S4, 'o'), ssn(S5, 'o'),
-
-    ss(S7, _),
-    o6(_, S7, S8, S9, S4, SA, SB),
-    S9 \= S3,
-
-    ss(S9, ' '),
-    (ssn(S7, 'o'), ssn(S8, 'o'), ssn(SA, 'o'), ssn(SB, 'o')),
-    (ss(SA, 'x'), ss(S8, 'x')),
-
-    (
-        (
-            ssn(S1, 'o'), ss(S2, ' '), ss(S4, 'x'), ss(SA, 'x'), ss(S8, 'x'),
-            tah_a(S2, 'GPT38', O)
-        ) ;
-        (
-            ssn(S1, 'o'), ss(S4, ' '), ss(S2, 'x'), ss(SA, 'x'), ss(S8, 'x'),
-            tah_a(S4, 'GPT39', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S5, ' '), ss(S4, 'x'), ss(SA, 'x'), ss(S8, 'x'),
-            tah_a(S5, 'GPT40', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S4, ' '), ss(S5, 'x'), ss(SA, 'x'), ss(S8, 'x'),
-            tah_a(S4, 'GPT41', O)
-        ) ;
-        (
-            ss(SA, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(S8, 'x'),
-            tah_a(SA, 'GPT42', O)
-        ) ;
-        (
-            ss(S8, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(SA, 'x'),
-            tah_a(S8, 'GPT43', O)
-        )
-    ).
-
-tp :-
-    ss(S1, _), o6(O, S1, S2, S3, S4, S5, SZ),
-    ss(S4, ' '),
-    (
-        ((ss(S2, 'x') ; ss(S4, 'x')), ssn(S1, 'o')) ;
-        ((ss(S4, 'x') ; ss(S5, 'x')), ssn(SZ, 'o'))
-    ),
-    ssn(S2, 'o'), ssn(S3, 'o'), ssn(S4, 'o'), ssn(S5, 'o'),
-
-    ss(S9, _),
-    o6(_, S9, S4, SA, SB, SC, SD),
-    S9 \= S3,
-
-    ss(SA, ' '),
-    ssn(SD, 'o'), ssn(SB, 'o'), ssn(SC, 'o'), ssn(S9, 'o'),
-    (ss(SB, 'x') ; ss(SC, 'x')),
-
-    (
-        (
-            ssn(S1, 'o'), ss(S2, ' '), ss(S4, 'x'), ss(SC, 'x'), ss(SB, 'x'),
-            tah_a(S2, 'GPT44', O)
-        ) ;
-        (
-            ssn(S1, 'o'), ss(S4, ' '), ss(S2, 'x'), ss(SC, 'x'), ss(SB, 'x'),
-            tah_a(S4, 'GPT45', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S5, ' '), ss(S4, 'x'), ss(SC, 'x'), ss(SB, 'x'),
-            tah_a(S5, 'GPT46', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S4, ' '), ss(S5, 'x'), ss(SC, 'x'), ss(SB, 'x'),
-            tah_a(S4, 'GPT47', O)
-        ) ;
-        (
-            ss(SC, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(SB, 'x'),
-            tah_a(SC, 'GPT48', O)
-        ) ;
-        (
-            ss(SB, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(SC, 'x'),
-            tah_a(SB, 'GPT49', O)
-        )
-    ).
-
-tp :-
-    ss(S1, _), o6(O, S1, S2, S3, S4, S5, SZ),
-    ss(S4, ' '),
-    (
-        ((ss(S2, 'x') ; ss(S4, 'x')), ssn(S1, 'o')) ;
-        ((ss(S4, 'x') ; ss(S5, 'x')), ssn(SZ, 'o'))
-    ),
-    ssn(S2, 'o'), ssn(S3, 'o'), ssn(S4, 'o'), ssn(S5, 'o'),
-
-    ss(S8, _),
-    o6(_, S8, S9, S4, SA, SB, SC),
-    S9 \= S3,
-
-    ss(SA, ' '),
-    ssn(SC, 'o'), ssn(SB, 'o'), (ss(S9, 'x'), ss(S9, ' ')), ssn(S8, 'o'),
-    (ss(SB, 'x') ; ss(S9, 'x')),
-
-    (
-        (
-            ssn(S1, 'o'), ss(S2, ' '), ss(S4, 'x'), ss(S9, 'x'), ss(SB, 'x'),
-            tah_a(S2, 'GPT50', O)
-        ) ;
-        (
-            ssn(S1, 'o'), ss(S4, ' '), ss(S2, 'x'), ss(S9, 'x'), ss(SB, 'x'),
-            tah_a(S4, 'GPT51', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S5, ' '), ss(S4, 'x'), ss(S9, 'x'), ss(SB, 'x'),
-            tah_a(S5, 'GPT52', O)
-        ) ;
-        (
-            ssn(SZ, 'o'), ss(S4, ' '), ss(S5, 'x'), ss(S9, 'x'), ss(SB, 'x'),
-            tah_a(S4, 'GPT53', O)
-        ) ;
-        (
-            ss(S9, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(SB, 'x'),
-            tah_a(S9, 'GPT54', O)
-        ) ;
-        (
-            ss(SB, ' '), ((ss(S2, 'x') ; ss(S4, 'x')) ; (ss(S4, 'x') ; ss(S5, 'x'))), ss(S9, 'x'),
-            tah_a(SB, 'GPT55', O)
+            tah_a(SC, 'GPT43', O)
         )
     ).
 
@@ -1146,25 +787,25 @@ tp :-
     ss(S2, ' '), ss(S3, ' '), ss(S4, 'x'), ss(S5, ' '),
     ss(S6, ' '), o(O, S6, S7, S2, S8, S9), S8 \= S3,
     ss(S7, 'x'), ss(S8, 'x'), ss(S9, ' '),
-    tah_a(S3, 'GPT56', O).
+    tah_a(S3, 'GPT92', O).
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, ' '), ss(S3, 'x'), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(O, S6, S7, S2, S8, S9), S8 \= S3,
     ss(S7, 'x'), ss(S8, 'x'), ss(S9, ' '),
-    tah_a(S4, 'GPT57', O).
+    tah_a(S4, 'GPT93', O).
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, 'x'), ss(S3, 'x'), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(O, S6, S7, S4, S8, S9), S8 \= S5,
     ss(S7, ' '), ss(S8, 'x'), ss(S9, ' '),
-    tah_a(S7, 'GPT58', O).
+    tah_a(S7, 'GPT94', O).
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, 'x'), ss(S3, 'x'), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(O, S6, S7, S4, S8, S9), S8 \= S5,
     ss(S7, 'x'), ss(S8, ' '), ss(S9, ' '),
-    tah_a(S8, 'GPT59', O).
+    tah_a(S8, 'GPT95', O).
 
 % To samé, ale kříž doleva
 tp :-
@@ -1172,25 +813,25 @@ tp :-
     ss(S2, 'x'), ss(S3, ' '), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(O, S6, S7, S4, S8, S9), S7 \= S3,
     ss(S7, 'x'), ss(S8, 'x'), ss(S9, ' '),
-    tah_a(S3, 'GPT60', O).
+    tah_a(S3, 'GPT96', O).
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, ' '), ss(S3, 'x'), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(O, S6, S7, S4, S8, S9), S7 \= S3,
     ss(S7, 'x'), ss(S8, 'x'), ss(S9, ' '),
-    tah_a(S2, 'GPT61', O).
+    tah_a(S2, 'GPT97', O).
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, 'x'), ss(S3, 'x'), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(O, S6, S7, S4, S8, S9), S7 \= S3,
     ss(S7, ' '), ss(S8, 'x'), ss(S9, ' '),
-    tah_a(S7, 'GPT62', O).
+    tah_a(S7, 'GPT98', O).
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, 'x'), ss(S3, 'x'), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(O, S6, S7, S4, S8, S9), S7 \= S3,
     ss(S7, 'x'), ss(S8, ' '), ss(S9, ' '),
-    tah_a(S8, 'GPT63', O).
+    tah_a(S8, 'GPT99', O).
 
 % Najdu vidličku která má prázdné pozice a zkouším pokládat
 tp :-
@@ -1220,19 +861,19 @@ tp :-
     (
         (
             ss(S2, 'x'), ss(S7, 'x'), ss(S3, ' '),
-            tah_a(S3, 'GPT64', -1)
+            tah_a(S3, 'GPT100', -1)
         ) ;
         (
             ss(S3, 'x'), ss(S8, 'x'), ss(S6, ' '),
-            tah_a(S2, 'GPT65', O)
+            tah_a(S2, 'GPT101', O)
         ) ;
         (
             ss(S3, 'x'), ss(S8, 'x'), ss(S9, ' '),
-            tah_a(S4, 'GPT66', O)
+            tah_a(S4, 'GPT102', O)
         ) ;
         (
             ss(S4, 'x'), ss(S9, 'x'), ss(S3, ' '),
-            tah_a(S3, 'GPT67', O)
+            tah_a(S3, 'GPT103', O)
         )
     ).
 
@@ -1244,25 +885,25 @@ tp :-
     ss(S2, ' '), ss(S3, 'x'), ss(S4, 'x'), ss(S5, ' '),
     ss(S6, ' '), o(_, S6, S7, S2, S8, S9), S8 \= S3,
     ss(S7, ' '), ss(S8, ' '), ss(S9, ' '),
-    tah_a(S8, 'GPT68', O).
+    tah_a(S8, 'GPT104', O).
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, 'x'), ss(S3, 'x'), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(_, S6, S7, S4, S8, S9), S8 \= S5,
     ss(S7, ' '), ss(S8, ' '), ss(S9, ' '),
-    tah_a(S8, 'GPT69', O).
+    tah_a(S8, 'GPT105', O).
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, ' '), ss(S3, ' '), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(_, S6, S7, S2, S8, S9), S8 \= S3,
     ss(S7, 'x'), ss(S8, 'x'), ss(S9, ' '),
-    tah_a(S3, 'GPT70', O).
+    tah_a(S3, 'GPT106', O).
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, ' '), ss(S3, ' '), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(_, S6, S7, S4, S8, S9), S8 \= S5,
     ss(S7, 'x'), ss(S8, 'x'), ss(S9, ' '),
-    tah_a(S3, 'GPT71', O).
+    tah_a(S3, 'GPT107', O).
 
 % Robíme kříže - položení druhého pole
 % Doprava
@@ -1271,14 +912,14 @@ tp :-
     ss(S2, ' '), ss(S3, 'x'), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(_, S6, S7, S2, S8, S9), S8 \= S3,
     ss(S7, ' '), ss(S8, ' '), ss(S9, ' '),
-    tah_a(S4, 'GPT72', O).
+    tah_a(S4, 'GPT108', O).
 
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, ' '), ss(S3, ' '), ss(S4, 'x'), ss(S5, ' '),
     ss(S6, ' '), o(_, S6, S7, S2, S8, S9), S8 \= S3,
     ss(S7, ' '), ss(S8, ' '), ss(S9, ' '),
-    tah_a(S3, 'GPT73', O).
+    tah_a(S3, 'GPT109', O).
 
 % Doleva
 tp :-
@@ -1286,29 +927,29 @@ tp :-
     ss(S2, ' '), ss(S3, 'x'), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(_, S6, S7, S4, S8, S9), S8 \= S5,
     ss(S7, ' '), ss(S8, ' '), ss(S9, ' '),
-    tah_a(S2, 'GPT74', O).
+    tah_a(S2, 'GPT110', O).
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, 'x'), ss(S3, ' '), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(_, S6, S7, S4, S8, S9), S8 \= S5,
     ss(S7, ' '), ss(S8, ' '), ss(S9, ' '),
-    tah_a(S3, 'GPT75', O).
+    tah_a(S3, 'GPT111', O).
 
-% Robíme kříže - položení prvního pole
+% Pokud hraju první
 % Doprava
-tp :-
-    ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
-    ss(S2, ' '), ss(S3, ' '), ss(S4, ' '), ss(S5, ' '),
-    ss(S6, ' '), o(_, S6, S7, S2, S8, S9), S8 \= S3,
-    ss(S7, ' '), ss(S8, ' '), ss(S9, ' '),
-    tah_a(S3, 'GPT76', O).
+% tp :-
+%     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
+%     ss(S2, ' '), ss(S3, ' '), ss(S4, ' '), ss(S5, ' '),
+%     ss(S6, ' '), o(_, S6, S7, S2, S8, S9), S8 \= S3,
+%     ss(S7, ' '), ss(S8, ' '), ss(S9, ' '),
+%     tah_a(S3, 'GPT112', O).
 % Doleva
 tp :-
     ss(S1, ' '), o(O, S1, S2, S3, S4, S5),
     ss(S2, ' '), ss(S3, ' '), ss(S4, ' '), ss(S5, ' '),
     ss(S6, ' '), o(_, S6, S7, S4, S8, S9), S8 \= S5,
     ss(S7, ' '), ss(S8, ' '), ss(S9, ' '),
-    tah_a(S3, 'GPT77', O).
+    tah_a(S3, 'GPT113', O).
 
 tp :- ss(S1, ' '), o(O, S1, S2, S3, S4, S5), ss(S1, ' '), ss(S2, 'x'), ss(S3, ' '), ss(S4, 'x'), ss(S5, 'x'), tah_a(S1, 'O_DOP_3_1', O).
 tp :- ss(S1, 'x'), o(O, S1, S2, S3, S4, S5), ss(S1, 'x'), ss(S2, ' '), ss(S3, ' '), ss(S4, 'x'), ss(S5, 'x'), tah_a(S2, 'O_DOP_3_2', O).
