@@ -1,7 +1,7 @@
 % Logical programming, Summer 2025,  Daniel Makovský
-% Play with "tah(<X>, <Y>). The computer plays automatically"
+% Play with "tah(<X>, <Y>)." The computer plays automatically
 % Computer starts by running "tp."
-% If you want to simulate computer move for debugging, you can use "tah_a([<X>, <Y>]). But dont forget to disable automatic computer moves"
+% If you want to simulate computer move for debugging, you can use "tah_a([<X>, <Y>])." But dont forget to disable automatic computer moves
 % You can reset the playground by running "rs."
 
 :- dynamic ss/2.
